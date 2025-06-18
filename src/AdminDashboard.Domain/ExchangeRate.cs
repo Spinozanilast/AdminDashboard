@@ -1,11 +1,15 @@
+using AdminDashboard.Domain.Common;
+
 namespace AdminDashboard.Domain;
 
-public class ExchangeRate
+public class ExchangeRate : Entity<Guid>
 {
     public decimal Rate { get; private set; }
     public DateTime LastUpdated { get; private set; }
 
-    private ExchangeRate() {}
+    private ExchangeRate()
+    {
+    }
 
     public ExchangeRate(decimal rate)
     {

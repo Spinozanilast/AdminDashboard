@@ -2,13 +2,15 @@ using AdminDashboard.Domain.Common;
 
 namespace AdminDashboard.Domain;
 
-public class Tag: Entity<Guid>
+public class Tag : Entity<Guid>
 {
     public string Name { get; private set; }
     public string Color { get; private set; }
-    public List<ClientTag> Clients { get; } = new();
+    public List<Client> Clients { get; } = new();
 
-    private Tag() {}
+    private Tag()
+    {
+    }
 
     public Tag(string name, string color = "#4f46e5")
     {

@@ -8,7 +8,7 @@ public class Client : Entity<Guid>
     public string Email { get; private set; }
     public decimal BalanceT { get; private set; }
     public List<Payment> Payments { get; } = new();
-    public List<ClientTag> Tags { get; } = new();
+    public List<Tag> Tags { get; } = new();
 
     private Client()
     {
@@ -36,15 +36,15 @@ public class Client : Entity<Guid>
 
     public void AddTag(Tag tag)
     {
-        if (Tags.All(t => t.TagId != tag.Id))
+        if (Tags.All(t => t.Id != tag.Id))
         {
-            Tags.Add(new ClientTag(Id, tag.Id));
+            Tags.Add(tag);
         }
     }
 
     public void RemoveTag(Guid tagId)
     {
-        var tagToRemove = Tags.FirstOrDefault(t => t.TagId == tagId);
+        var tagToRemove = Tags.FirstOrDefault(t => t.Id == tagId);
         if (tagToRemove != null)
         {
             Tags.Remove(tagToRemove);

@@ -1,6 +1,8 @@
+using AdminDashboard.Domain.Common;
+
 namespace AdminDashboard.Domain;
 
-public class RefreshToken
+public class RefreshToken : Entity<Guid>
 {
     public string Token { get; private set; }
     public DateTime Created { get; private set; }
