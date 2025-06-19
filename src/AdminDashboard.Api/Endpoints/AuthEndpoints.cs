@@ -1,7 +1,5 @@
 using AdminDashboard.Abstractions.Auth.Commands;
 using AdminDashboard.Contracts.Auth;
-using Asp.Versioning;
-using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +9,7 @@ public static class AuthEndpoints
 {
     public static WebApplication AddAuthEndpointsGroup(this WebApplication app)
     {
-        var authGroup = app.MapGroup("/auth").WithTags("Authentication");
+        var authGroup = app.MapGroup("/auth").WithTags("Authentication").WithOpenApi();
 
         authGroup.MapPost("/login",
                 async Task<Results<Ok<AuthResponse>, ProblemHttpResult>> (
@@ -53,6 +51,7 @@ public static class AuthEndpoints
                     }
                 })
             .WithName("RefreshToken")
+            .AllowAnonymous()
             .WithOpenApi();
 
         return app;

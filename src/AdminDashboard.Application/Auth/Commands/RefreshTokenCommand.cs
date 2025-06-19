@@ -22,7 +22,7 @@ public class RefreshTokenCommand : IRefreshTokenCommand
     public async Task<AuthResponse> ExecuteAsync(RefreshTokenRequest request,
         CancellationToken cancellationToken = default)
     {
-        var principal = _jwtService.GetPrincipalFromExpiredToken(request.AccessToken);
+        var principal = _jwtService.GetPrincipalFromExpiredToken(request.Token);
 
         if (principal is null)
         {

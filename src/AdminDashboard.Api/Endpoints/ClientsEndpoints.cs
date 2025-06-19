@@ -2,8 +2,6 @@ using AdminDashboard.Abstractions.Clients.Commands;
 using AdminDashboard.Abstractions.Clients.Queries;
 using AdminDashboard.Contracts.Clients;
 using AdminDashboard.Domain.Exceptions;
-using Asp.Versioning;
-using Asp.Versioning.Builder;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -14,30 +12,40 @@ public static class ClientsEndpoints
 {
     public static WebApplication AddClientsEndpointsGroup(this WebApplication app)
     {
-        var clientsGroup = app.MapGroup("/clients").WithTags("Clients").RequireAuthorization();
+        var clientsGroup = app.MapGroup("/clients").WithTags("Clients").RequireAuthorization().WithOpenApi();
 
         clientsGroup.MapGet("/{id:guid}",
-            async Task<Results<Ok<ClientDto>, ProblemHttpResult, NotFound>> ([FromRoute] Guid id,
-                [FromServices] IGetClientByIdQuery query) =>
-            {
-                try
+                async Task<Results<Ok<ClientDto>, ProblemHttpResult, NotFound>> ([FromRoute] Guid id,
+                    [FromServices] IGetClientByIdQuery query) =>
                 {
-                    var client = await query.GetByIdAsync(id);
-
-                    if (client is null)
+                    try
                     {
-                        return TypedResults.NotFound();
-                    }
+                        var client = await query.GetByIdAsync(id);
 
-                    return TypedResults.Ok(client);
-                }
-                catch (NotFoundException ex)
-                {
-                    return TypedResults.Problem(
-                        title: "Client not found",
-                        detail: ex.Message,
-                        statusCode: StatusCodes.Status404NotFound);
-                }
+                        if (client is null)
+                        {
+                            return TypedResults.NotFound();
+                        }
+
+                        return TypedResults.Ok(client);
+                    }
+                    catch (NotFoundException ex)
+                    {
+                        return TypedResults.Problem(
+                            title: "Client not found",
+                            detail: ex.Message,
+                            statusCode: StatusCodes.Status404NotFound);
+                    }
+                })
+            .WithName("GetClientById")
+            .WithOpenApi();
+
+        clientsGroup.MapGet("",
+            async Task<Ok<List<ClientDto>>> (
+                [FromServices] IGetClientsQuery query) =>
+            {
+                var clients = await query.GetClientsAsync();
+                return TypedResults.Ok(clients);
             });
 
         clientsGroup.MapPost("",
@@ -85,8 +93,8 @@ public static class ClientsEndpoints
             .WithOpenApi();
 
 
-        clientsGroup.MapPost("", async (
-                [FromRoute] DeleteClientsRequest request,
+        clientsGroup.MapPost("/delete-multiple", async (
+                [FromBody] DeleteClientsRequest request,
                 [FromServices] IDeleteClientsCommand command) =>
             {
                 try

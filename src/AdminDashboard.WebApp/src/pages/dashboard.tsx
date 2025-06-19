@@ -17,6 +17,9 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { LogOut, Users, TrendingUp, CreditCard, RefreshCw } from "lucide-react"
 import { toast } from "sonner"
 import { useAuth } from "@/contexts/auth-context"
+import { ClientsManagement } from "@/components/clients-management"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TabsContent } from "@radix-ui/react-tabs"
 
 const rateSchema = z.object({
     newRate: z.number().min(0.01, "Rate must be greater than 0"),
@@ -28,7 +31,6 @@ export default function DashboardPage() {
     const navigate = useNavigate()
     const { logout } = useAuth()
 
-    // Queries
     const clientsQuery = useClients()
     const rateQuery = useExchangeRate()
     const paymentsQuery = usePayments(5)
@@ -37,13 +39,13 @@ export default function DashboardPage() {
     const form = useForm<RateFormValues>({
         resolver: zodResolver(rateSchema),
         defaultValues: {
-            newRate: rateQuery.data?.rate || 10,
+            newRate: rateQuery.data?.exchangeRate || 10,
         },
     })
 
     useState(() => {
-        if (rateQuery.data?.rate) {
-            form.setValue("newRate", rateQuery.data.rate)
+        if (rateQuery.data?.exchangeRate) {
+            form.setValue("newRate", rateQuery.data.exchangeRate)
         }
     })
 
@@ -115,7 +117,7 @@ export default function DashboardPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {rateQuery.isLoading ? <Skeleton className="h-8 w-16" /> : rateQuery.data?.rate.toFixed(2) || "0.00"}
+                                    {rateQuery.isLoading ? <Skeleton className="h-8 w-16" /> : rateQuery.data?.exchangeRate.toFixed(2) || "0.00"}
                                 </div>
                             </CardContent>
                         </Card>
@@ -134,64 +136,85 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-2">
-                        {/* Clients Table */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Clients</CardTitle>
-                                <CardDescription>Manage your client database</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                {clientsQuery.isLoading ? (
-                                    <div className="space-y-3">
-                                        {Array.from({ length: 3 }).map((_, i) => (
-                                            <div key={i} className="flex items-center space-x-4">
-                                                <Skeleton className="h-12 w-12 rounded-full" />
-                                                <div className="space-y-2">
-                                                    <Skeleton className="h-4 w-[200px]" />
-                                                    <Skeleton className="h-4 w-[160px]" />
-                                                </div>
+                        <Tabs defaultValue="view">
+                            <TabsList className="mb-1 flex w-full justify-center">
+                                <TabsTrigger value="view">View Mode</TabsTrigger>
+                                <TabsTrigger value="edit">Edit Mode</TabsTrigger>
+                            </TabsList>
+                            {/* Clients Table */}
+                            <TabsContent value="view">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Clients</CardTitle>
+                                        <CardDescription>Manage your client database</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {clientsQuery.isLoading ? (
+                                            <div className="space-y-3">
+                                                {Array.from({ length: 3 }).map((_, i) => (
+                                                    <div key={i} className="flex items-center space-x-4">
+                                                        <Skeleton className="h-12 w-12 rounded-full" />
+                                                        <div className="space-y-2">
+                                                            <Skeleton className="h-4 w-[200px]" />
+                                                            <Skeleton className="h-4 w-[160px]" />
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
-                                        ))}
-                                    </div>
-                                ) : clientsQuery.error ? (
-                                    <div className="text-center py-8 text-destructive">
-                                        Error loading clients: {clientsQuery.error.message}
-                                    </div>
-                                ) : (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>Email</TableHead>
-                                                <TableHead className="text-right">Balance T</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {clientsQuery.data?.length === 0 ? (
-                                                <TableRow>
-                                                    <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                                        No clients found
-                                                    </TableCell>
-                                                </TableRow>
-                                            ) : (
-                                                clientsQuery.data?.map((client) => (
-                                                    <TableRow key={client.id}>
-                                                        <TableCell className="font-medium">{client.name}</TableCell>
-                                                        <TableCell className="text-muted-foreground">{client.email}</TableCell>
-                                                        <TableCell className="text-right">
-                                                            <Badge variant="secondary">{client.balanceT.toFixed(2)}</Badge>
-                                                        </TableCell>
+                                        ) : clientsQuery.error ? (
+                                            <div className="text-center py-8 text-destructive">
+                                                Error loading clients: {clientsQuery.error.message}
+                                            </div>
+                                        ) : (
+                                            <Table>
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>Name</TableHead>
+                                                        <TableHead>Email</TableHead>
+                                                        <TableHead className="text-right">Balance T</TableHead>
+                                                        <TableHead className="text-cent">Tags</TableHead>
                                                     </TableRow>
-                                                ))
-                                            )}
-                                        </TableBody>
-                                    </Table>
-                                )}
-                            </CardContent>
-                        </Card>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {clientsQuery.data?.length === 0 ? (
+                                                        <TableRow>
+                                                            <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                                                                No clients found
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ) : (
+                                                        clientsQuery.data?.map((client) => (
+                                                            <TableRow key={client.id}>
+                                                                <TableCell className="font-medium">{client.name}</TableCell>
+                                                                <TableCell className="text-muted-foreground">{client.email}</TableCell>
+                                                                <TableCell className="text-right">
+                                                                    <Badge variant="secondary">{client.balanceT.toFixed(2)}</Badge>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <div className="flex flex-wrap gap-1">
+                                                                        {client.tags.map((tag) => (
+                                                                            <Badge key={tag.name} color={tag.color} className="text-xs">
+                                                                                {tag.name}
+                                                                            </Badge>
+                                                                        ))}
+                                                                    </div>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ))
+                                                    )}
+                                                </TableBody>
+                                            </Table>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                            <TabsContent value="edit">
+                                <ClientsManagement />
+                            </TabsContent>
+                        </Tabs>
 
                         {/* Exchange Rate */}
-                        <Card>
+                        <Card className="h-fit">
                             <CardHeader>
                                 <CardTitle>Exchange Rate</CardTitle>
                                 <CardDescription>Manage token exchange rate</CardDescription>
@@ -209,7 +232,7 @@ export default function DashboardPage() {
                                 ) : (
                                     <div className="space-y-6">
                                         <div className="text-center">
-                                            <div className="text-3xl font-bold text-primary">{rateQuery.data?.rate.toFixed(2)}</div>
+                                            <div className="text-3xl font-bold text-primary">{rateQuery.data?.exchangeRate.toFixed(2)}</div>
                                             <p className="text-sm text-muted-foreground mt-1">
                                                 Last updated:{" "}
                                                 {rateQuery.data?.lastUpdated
@@ -249,63 +272,61 @@ export default function DashboardPage() {
                                 )}
                             </CardContent>
                         </Card>
-                    </div>
 
-                    {/* Recent Payments */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Recent Payments</CardTitle>
-                            <CardDescription>Latest payment transactions</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            {paymentsQuery.isLoading ? (
-                                <div className="space-y-3">
-                                    {Array.from({ length: 5 }).map((_, i) => (
-                                        <Skeleton key={i} className="h-12 w-full" />
-                                    ))}
-                                </div>
-                            ) : paymentsQuery.error ? (
-                                <div className="text-center py-8 text-destructive">
-                                    Error loading payments: {paymentsQuery.error.message}
-                                </div>
-                            ) : (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Client</TableHead>
-                                            <TableHead>Amount</TableHead>
-                                            <TableHead>Tokens</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead>Date</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {paymentsQuery.data?.length === 0 ? (
+                        {/* Recent Payments */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Recent Payments</CardTitle>
+                                <CardDescription>Latest payment transactions</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {paymentsQuery.isLoading ? (
+                                    <div className="space-y-3">
+                                        {Array.from({ length: 5 }).map((_, i) => (
+                                            <Skeleton key={i} className="h-12 w-full" />
+                                        ))}
+                                    </div>
+                                ) : paymentsQuery.error ? (
+                                    <div className="text-center py-8 text-destructive">
+                                        Error loading payments: {paymentsQuery.error.message}
+                                    </div>
+                                ) : (
+                                    <Table>
+                                        <TableHeader>
                                             <TableRow>
-                                                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                                                    No payments found
-                                                </TableCell>
+                                                <TableHead>Client Id</TableHead>
+                                                <TableHead>Amount</TableHead>
+                                                <TableHead>Tokens</TableHead>
+                                                <TableHead>Date</TableHead>
+                                                <TableHead>Client Email</TableHead>
                                             </TableRow>
-                                        ) : (
-                                            paymentsQuery.data?.map((payment) => (
-                                                <TableRow key={payment.id}>
-                                                    <TableCell className="font-medium">{payment.clientName}</TableCell>
-                                                    <TableCell>${payment.amount.toFixed(2)}</TableCell>
-                                                    <TableCell>{payment.tokensAmount.toFixed(2)}</TableCell>
-                                                    <TableCell>
-                                                        <Badge variant={payment.status === "completed" ? "default" : "secondary"}>
-                                                            {payment.status}
-                                                        </Badge>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {paymentsQuery.data?.length === 0 ? (
+                                                <TableRow>
+                                                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                                                        No payments found
                                                     </TableCell>
-                                                    <TableCell>{new Date(payment.createdAt).toLocaleDateString()}</TableCell>
                                                 </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            )}
-                        </CardContent>
-                    </Card>
+                                            ) : (
+                                                paymentsQuery.data?.map((payment) => (
+                                                    <TableRow key={payment.id}>
+                                                        <TableCell className="font-medium">{payment.clientId}</TableCell>
+                                                        <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                                                        <TableCell>{payment.description}</TableCell>
+                                                        <TableCell>{new Date(payment.date).toLocaleString()}</TableCell>
+                                                        <TableCell>
+                                                            {payment.clientEmail}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            )}
+                                        </TableBody>
+                                    </Table>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
             </main>
         </div>

@@ -1,7 +1,5 @@
 using AdminDashboard.Abstractions.Payments.Queries;
 using AdminDashboard.Contracts.Payments;
-using Asp.Versioning;
-using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +9,7 @@ public static class PaymentsEndpoints
 {
     public static WebApplication AddPaymentsEndpointsGroup(this WebApplication app)
     {
-        var paymentsGroup = app.MapGroup("/payments").WithTags("Payments").RequireAuthorization();
+        var paymentsGroup = app.MapGroup("/payments").WithTags("Payments").RequireAuthorization().WithOpenApi();
 
         paymentsGroup.MapGet("", async Task<Ok<List<PaymentDto>>> (
                 [FromQuery] int? take,

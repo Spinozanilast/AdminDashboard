@@ -50,7 +50,7 @@ public class ClientsRepository(AppDbContext context) : IClientsRepository
 
     public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
     {
-        _context.RemoveRange(ids);
+        await _context.Clients.Where(c => ids.Contains(c.Id)).ExecuteDeleteAsync();
         await _context.SaveChangesAsync();
     }
 }

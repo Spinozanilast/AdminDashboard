@@ -1,5 +1,4 @@
 using AdminDashboard.Contracts.Payments;
-using AdminDashboard.Domain;
 
 namespace AdminDashboard.Abstractions.Payments.Queries;
 

@@ -2,9 +2,6 @@ using AdminDashboard.Abstractions.ExchangeRates.Commands;
 using AdminDashboard.Abstractions.ExchangeRates.Queries;
 using AdminDashboard.Contracts.ExchangeRates;
 using AdminDashboard.Domain.Exceptions;
-using Asp.Versioning;
-using Asp.Versioning.Builder;
-using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +11,7 @@ public static class ExchangeRatesEndpoints
 {
     public static WebApplication AddExchangeRatesEndpointsGroup(this WebApplication app)
     {
-        var ratesGroup = app.MapGroup("/rates").WithTags("Rates").RequireAuthorization();
+        var ratesGroup = app.MapGroup("/rates").WithTags("Rates").RequireAuthorization().WithOpenApi();
 
         ratesGroup.MapGet("", async Task<Results<Ok<ExchangeRateDto>, ProblemHttpResult>> (
                 [FromServices] IGetExchangeRateQuery query) =>

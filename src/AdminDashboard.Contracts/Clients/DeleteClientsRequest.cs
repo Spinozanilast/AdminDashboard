@@ -1,3 +1,3 @@
 namespace AdminDashboard.Contracts.Clients;
 
-public record DeleteClientsRequest(Guid[] ClientsIds);
+public record DeleteClientsRequest(Guid[] ClientIds);

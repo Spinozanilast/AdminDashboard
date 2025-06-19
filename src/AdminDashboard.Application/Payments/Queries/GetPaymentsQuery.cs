@@ -1,7 +1,6 @@
 using AdminDashboard.Abstractions.Payments;
 using AdminDashboard.Abstractions.Payments.Queries;
 using AdminDashboard.Contracts.Payments;
-using AdminDashboard.Domain;
 
 namespace AdminDashboard.Application.Payments.Queries;
 
@@ -25,7 +24,8 @@ public class GetPaymentsQuery : IGetPaymentsQuery
             p.Amount,
             p.Date,
             p.Description,
-            p.ClientId
+            p.Client.Id,
+            p.Client.Email
         )).ToList();
     }
 }

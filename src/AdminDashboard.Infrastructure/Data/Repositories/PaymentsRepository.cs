@@ -15,12 +15,12 @@ public class PaymentsRepository(AppDbContext context) : IPaymentsRepository
 
     public async Task<IEnumerable<Payment>> GetAllAsync()
     {
-        return await _context.Payments.ToListAsync();
+        return await _context.Payments.AsNoTracking().ToListAsync();
     }
 
     public async Task AddAsync(Payment payment)
     {
-        var client = await _context.Clients.FindAsync(payment.ClientId);
+        var client = await _context.Clients.FindAsync(payment.Client.Id);
 
         if (client is not null)
         {
@@ -51,6 +51,8 @@ public class PaymentsRepository(AppDbContext context) : IPaymentsRepository
     public async Task<IEnumerable<Payment>> GetLatestPaymentsAsync(int count = 5)
     {
         return await _context.Payments
+            .AsNoTracking()
+            .Include(p => p.Client)
             .OrderByDescending(p => p.Date)
             .Take(count)
             .ToListAsync();
@@ -59,7 +61,8 @@ public class PaymentsRepository(AppDbContext context) : IPaymentsRepository
     public async Task<IEnumerable<Payment>> GetPaymentsByClientIdAsync(Guid clientId)
     {
         return await _context.Payments
-            .Where(p => p.ClientId == clientId)
+            .AsNoTracking()
+            .Where(p => p.Client.Id == clientId)
             .OrderByDescending(p => p.Date)
             .ToListAsync();
     }

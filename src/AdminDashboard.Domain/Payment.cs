@@ -8,6 +8,7 @@ public class Payment : Entity<Guid>
     public DateTime Date { get; private set; }
     public string Description { get; private set; }
     public Guid ClientId { get; private set; }
+    public Client Client { get; private set; } = null!;
 
     private Payment()
     {

@@ -21,8 +21,8 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
-    const navigate = useNavigate()
-    const loginMutation = useLogin()
+    const navigate = useNavigate();
+    const loginMutation = useLogin();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -30,22 +30,21 @@ export default function LoginPage() {
             email: "admin@mirra.dev",
             password: "admin123",
         },
-    })
+    });
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
-            await loginMutation.mutateAsync(data)
-            toast.success("Welcome to the admin dashboard!")
-            navigate("/dashboard")
+            await loginMutation.mutateAsync(data);
+            toast.success("Welcome to the admin dashboard!");
+            navigate("/dashboard");
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : "Invalid credentials")
+            toast.error(error instanceof Error ? error.message : "Invalid credentials");
         }
     }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-background p-4">
             <ThemeToggle />
-
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Admin Dashboard</CardTitle>
@@ -86,14 +85,8 @@ export default function LoginPage() {
                             </Button>
                         </form>
                     </Form>
-
-                    <div className="mt-4 text-center text-sm text-muted-foreground">
-                        <p>Demo credentials:</p>
-                        <p>Email: admin@mirra.dev</p>
-                        <p>Password: admin123</p>
-                    </div>
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }

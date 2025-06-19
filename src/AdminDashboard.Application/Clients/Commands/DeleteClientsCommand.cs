@@ -15,11 +15,11 @@ public class DeleteClientsCommand : IDeleteClientsCommand
 
     public async Task ExecuteAsync(DeleteClientsRequest request, CancellationToken cancellationToken)
     {
-        if (request.ClientsIds.Length == 0)
+        if (request.ClientIds.Length == 0)
         {
             return;
         }
 
-        await _clientsRepository.DeleteMultipleAsync(request.ClientsIds);
+        await _clientsRepository.DeleteMultipleAsync(request.ClientIds);
     }
 }

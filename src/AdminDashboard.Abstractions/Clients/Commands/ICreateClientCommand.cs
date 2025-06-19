@@ -1,5 +1,4 @@
 using AdminDashboard.Contracts.Clients;
-using AdminDashboard.Domain;
 
 namespace AdminDashboard.Abstractions.Clients.Commands;
 

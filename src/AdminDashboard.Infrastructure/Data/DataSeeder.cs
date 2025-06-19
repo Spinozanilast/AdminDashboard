@@ -13,7 +13,7 @@ public static class DataSeeder
         // User
         var userId = Guid.NewGuid();
         modelBuilder.Entity<User>().HasData(
-            new User("admin@mirra.dev", BCrypt.Net.BCrypt.HashPassword("admin123"))
+            new User("admin@mirra.dev", "admin123")
                 { Id = userId }
         );
 

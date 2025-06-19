@@ -21,7 +21,7 @@ public class LoginCommand : ILoginCommand
     public async Task<AuthResponse> ExecuteAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
         var user = await _usersRepository.GetByEmailAsync(request.Email);
-
+        
         if (user is null || !user.VerifyPassword(request.Password))
         {
             throw new UnauthorizedAccessException("Invalid credentials");

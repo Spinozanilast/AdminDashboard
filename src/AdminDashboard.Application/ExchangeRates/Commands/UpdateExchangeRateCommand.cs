@@ -2,7 +2,6 @@ using AdminDashboard.Abstractions;
 using AdminDashboard.Abstractions.ExchangeRates;
 using AdminDashboard.Abstractions.ExchangeRates.Commands;
 using AdminDashboard.Contracts.ExchangeRates;
-using AdminDashboard.Domain;
 
 namespace AdminDashboard.Application.ExchangeRates.Commands;
 

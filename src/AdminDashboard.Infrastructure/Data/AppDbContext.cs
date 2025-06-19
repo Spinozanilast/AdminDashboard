@@ -1,6 +1,5 @@
 using AdminDashboard.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AdminDashboard.Infrastructure.Data;
 

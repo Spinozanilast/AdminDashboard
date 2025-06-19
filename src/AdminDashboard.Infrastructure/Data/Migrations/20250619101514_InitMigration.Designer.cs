@@ -3,6 +3,7 @@ using System;
 using AdminDashboard.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdminDashboard.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250619101514_InitMigration")]
+    partial class InitMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,21 +58,21 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ffc8296f-886c-4d18-a245-4ab0cf6c2b28"),
+                            Id = new Guid("a987db56-f99f-47f5-93a8-1ba71889df80"),
                             BalanceT = 100m,
                             Email = "john@example.com",
                             Name = "John Doe"
                         },
                         new
                         {
-                            Id = new Guid("63ead4d6-88f1-48ea-b0cb-2843fabf87b4"),
+                            Id = new Guid("57dc4274-2d41-4e65-b11a-4a2c623bb812"),
                             BalanceT = 200m,
                             Email = "jane@example.com",
                             Name = "Jane Smith"
                         },
                         new
                         {
-                            Id = new Guid("95a88551-7a97-47c3-8baa-d97623823869"),
+                            Id = new Guid("3b30c2c0-294b-4d96-8026-5cdc0403e139"),
                             BalanceT = 300m,
                             Email = "bob@example.com",
                             Name = "Bob Johnson"
@@ -99,8 +102,8 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("05acc9b9-4e0a-4795-ba92-f4621a11639e"),
-                            LastUpdated = new DateTime(2025, 6, 19, 11, 16, 43, 351, DateTimeKind.Utc).AddTicks(235),
+                            Id = new Guid("ad087526-b475-4a42-86c0-be2766964078"),
+                            LastUpdated = new DateTime(2025, 6, 19, 10, 15, 14, 44, DateTimeKind.Utc).AddTicks(5620),
                             Rate = 10.0m
                         });
                 });
@@ -140,42 +143,42 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("225af31e-46bd-4dfe-b5fb-12f31095e960"),
+                            Id = new Guid("b28090be-0fc5-4c96-80c6-fe182eb2ca79"),
                             Amount = 50m,
-                            ClientId = new Guid("ffc8296f-886c-4d18-a245-4ab0cf6c2b28"),
-                            Date = new DateTime(2025, 6, 19, 11, 16, 43, 566, DateTimeKind.Utc).AddTicks(5568),
+                            ClientId = new Guid("a987db56-f99f-47f5-93a8-1ba71889df80"),
+                            Date = new DateTime(2025, 6, 19, 10, 15, 14, 311, DateTimeKind.Utc).AddTicks(4865),
                             Description = "Payment 1"
                         },
                         new
                         {
-                            Id = new Guid("f34b52e9-502c-4d5a-ae49-982eb309044a"),
+                            Id = new Guid("60f8806a-b080-4895-a587-3505112e8993"),
                             Amount = 75m,
-                            ClientId = new Guid("ffc8296f-886c-4d18-a245-4ab0cf6c2b28"),
-                            Date = new DateTime(2025, 6, 19, 11, 16, 43, 566, DateTimeKind.Utc).AddTicks(5807),
+                            ClientId = new Guid("a987db56-f99f-47f5-93a8-1ba71889df80"),
+                            Date = new DateTime(2025, 6, 19, 10, 15, 14, 311, DateTimeKind.Utc).AddTicks(5105),
                             Description = "Payment 2"
                         },
                         new
                         {
-                            Id = new Guid("53fe1933-b4b3-41c7-9d25-51b0fcc755cf"),
+                            Id = new Guid("9a68f8ef-faae-4d12-b05a-e297721682c9"),
                             Amount = 100m,
-                            ClientId = new Guid("63ead4d6-88f1-48ea-b0cb-2843fabf87b4"),
-                            Date = new DateTime(2025, 6, 19, 11, 16, 43, 566, DateTimeKind.Utc).AddTicks(5812),
+                            ClientId = new Guid("57dc4274-2d41-4e65-b11a-4a2c623bb812"),
+                            Date = new DateTime(2025, 6, 19, 10, 15, 14, 311, DateTimeKind.Utc).AddTicks(5110),
                             Description = "Payment 3"
                         },
                         new
                         {
-                            Id = new Guid("dd4684dc-7ab1-4cfa-b61e-9108f57ce7be"),
+                            Id = new Guid("49d13a3b-6192-43ca-b28c-61b5d7394062"),
                             Amount = 25m,
-                            ClientId = new Guid("95a88551-7a97-47c3-8baa-d97623823869"),
-                            Date = new DateTime(2025, 6, 19, 11, 16, 43, 566, DateTimeKind.Utc).AddTicks(5817),
+                            ClientId = new Guid("3b30c2c0-294b-4d96-8026-5cdc0403e139"),
+                            Date = new DateTime(2025, 6, 19, 10, 15, 14, 311, DateTimeKind.Utc).AddTicks(5114),
                             Description = "Payment 4"
                         },
                         new
                         {
-                            Id = new Guid("7389534e-2ae9-4e78-8ae1-034c3eebe944"),
+                            Id = new Guid("ec3b9d7f-03c9-406d-bb74-bfd24702bd4d"),
                             Amount = 150m,
-                            ClientId = new Guid("95a88551-7a97-47c3-8baa-d97623823869"),
-                            Date = new DateTime(2025, 6, 19, 11, 16, 43, 566, DateTimeKind.Utc).AddTicks(5822),
+                            ClientId = new Guid("3b30c2c0-294b-4d96-8026-5cdc0403e139"),
+                            Date = new DateTime(2025, 6, 19, 10, 15, 14, 311, DateTimeKind.Utc).AddTicks(5119),
                             Description = "Payment 5"
                         });
                 });
@@ -246,13 +249,13 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c8c90070-486b-482b-9e1d-89639f0d8533"),
+                            Id = new Guid("1483cc99-29ad-42f4-9528-1df013131c65"),
                             Color = "#ff0000",
                             Name = "VIP"
                         },
                         new
                         {
-                            Id = new Guid("0631783e-41a9-40eb-bf33-43e78acd9632"),
+                            Id = new Guid("60646b56-eac8-4297-8b88-949a6f5f684c"),
                             Color = "#00ff00",
                             Name = "Regular"
                         });
@@ -287,9 +290,9 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6732a5fd-4a21-4d0b-9d52-9480887277c4"),
+                            Id = new Guid("f8a1d99f-5b86-4aad-9eae-8ca0244682ff"),
                             Email = "admin@mirra.dev",
-                            PasswordHash = "$2a$11$OxMVjuCygRNxm7FFMpzSEe6/6yQkA2aJaM9Zfg32yhm8RE/limjYy"
+                            PasswordHash = "$2a$11$S/dVHGgcEwp9ChhFaxbjgOc15VKnLsxa/Qzbm40oOfSimHINBI9aC"
                         });
                 });
 
@@ -314,31 +317,29 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            ClientsId = new Guid("ffc8296f-886c-4d18-a245-4ab0cf6c2b28"),
-                            TagsId = new Guid("c8c90070-486b-482b-9e1d-89639f0d8533")
+                            ClientsId = new Guid("a987db56-f99f-47f5-93a8-1ba71889df80"),
+                            TagsId = new Guid("1483cc99-29ad-42f4-9528-1df013131c65")
                         },
                         new
                         {
-                            ClientsId = new Guid("63ead4d6-88f1-48ea-b0cb-2843fabf87b4"),
-                            TagsId = new Guid("c8c90070-486b-482b-9e1d-89639f0d8533")
+                            ClientsId = new Guid("57dc4274-2d41-4e65-b11a-4a2c623bb812"),
+                            TagsId = new Guid("1483cc99-29ad-42f4-9528-1df013131c65")
                         },
                         new
                         {
-                            ClientsId = new Guid("95a88551-7a97-47c3-8baa-d97623823869"),
-                            TagsId = new Guid("0631783e-41a9-40eb-bf33-43e78acd9632")
+                            ClientsId = new Guid("3b30c2c0-294b-4d96-8026-5cdc0403e139"),
+                            TagsId = new Guid("60646b56-eac8-4297-8b88-949a6f5f684c")
                         });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.Payment", b =>
                 {
-                    b.HasOne("AdminDashboard.Domain.Client", "Client")
+                    b.HasOne("AdminDashboard.Domain.Client", null)
                         .WithMany("Payments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_payments_clients_client_id");
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.RefreshToken", b =>

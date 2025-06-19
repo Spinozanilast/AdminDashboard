@@ -27,6 +27,15 @@ services:
       - "5000:80"
     depends_on:
       - postgres-db
+  frontend:
+    restart: on-failure
+    build:
+      context: ./src/AdminDashboard.WebApp
+      dockerfile: Dockerfile
+    image: frontend
+    container_name: admin-dashboard-frontend
+    ports:
+      - "5173:80"
 
 volumes:
   admin-dashboard-data:
