@@ -18,6 +18,7 @@ public class Payment : Entity<Guid>
         Amount = amount;
         Description = description;
         ClientId = clientId;
+        Id = Guid.NewGuid();
         Date = DateTime.UtcNow;
     }
 }

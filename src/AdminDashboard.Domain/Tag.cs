@@ -14,6 +14,7 @@ public class Tag : Entity<Guid>
 
     public Tag(string name, string color = "#4f46e5")
     {
+        Id = Guid.NewGuid();
         Name = name;
         Color = color;
     }

@@ -1,5 +1,6 @@
 using AdminDashboard.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,7 @@ public static class ContextInjector
         Action<DbContextOptionsBuilder>? configureOptions = null,
         bool usePooling = true,
         int poolSize = 128,
-        string connectionName = "DefaultConnection")
+        string connectionName = "PostgresConnection")
     {
         var connectionString = configuration.GetConnectionString(connectionName);
 
@@ -43,6 +44,8 @@ public static class ContextInjector
     {
         options
             .UseNpgsql(connectionString)
-            .UseSnakeCaseNamingConvention();
+            .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => { warnings.Ignore(RelationalEventId.PendingModelChangesWarning); });
+        ;
     }
 }

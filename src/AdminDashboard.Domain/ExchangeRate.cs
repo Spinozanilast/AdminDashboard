@@ -13,6 +13,7 @@ public class ExchangeRate : Entity<Guid>
 
     public ExchangeRate(decimal rate)
     {
+        Id = Guid.NewGuid();
         UpdateRate(rate);
     }
 

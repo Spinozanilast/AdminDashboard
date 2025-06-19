@@ -46,7 +46,34 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_clients");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_clients_email");
+
                     b.ToTable("clients", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"),
+                            BalanceT = 100m,
+                            Email = "john@example.com",
+                            Name = "John Doe"
+                        },
+                        new
+                        {
+                            Id = new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"),
+                            BalanceT = 200m,
+                            Email = "jane@example.com",
+                            Name = "Jane Smith"
+                        },
+                        new
+                        {
+                            Id = new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"),
+                            BalanceT = 300m,
+                            Email = "bob@example.com",
+                            Name = "Bob Johnson"
+                        });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.ExchangeRate", b =>
@@ -68,6 +95,14 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                         .HasName("pk_exchange_rates");
 
                     b.ToTable("exchange_rates", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("260b90ff-c556-426b-8567-9276bc3e339d"),
+                            LastUpdated = new DateTime(2025, 6, 19, 6, 14, 14, 287, DateTimeKind.Utc).AddTicks(9403),
+                            Rate = 10.0m
+                        });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.Payment", b =>
@@ -101,6 +136,48 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                         .HasDatabaseName("ix_payments_client_id");
 
                     b.ToTable("payments", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e91bfe8e-7d77-4af9-8c14-7567e1bf08f6"),
+                            Amount = 50m,
+                            ClientId = new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"),
+                            Date = new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2227),
+                            Description = "Payment 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("c0df2376-f828-4cd4-af3d-1f0fb0dcadf1"),
+                            Amount = 75m,
+                            ClientId = new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"),
+                            Date = new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2471),
+                            Description = "Payment 2"
+                        },
+                        new
+                        {
+                            Id = new Guid("88e94f46-3472-4965-90ee-d55d9a5c20f1"),
+                            Amount = 100m,
+                            ClientId = new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"),
+                            Date = new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2476),
+                            Description = "Payment 3"
+                        },
+                        new
+                        {
+                            Id = new Guid("eb11a863-31a4-425d-8501-69c18c791e4c"),
+                            Amount = 25m,
+                            ClientId = new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"),
+                            Date = new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2481),
+                            Description = "Payment 4"
+                        },
+                        new
+                        {
+                            Id = new Guid("d680ccfc-3135-44b7-ad50-4b438f5f4c41"),
+                            Amount = 150m,
+                            ClientId = new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"),
+                            Date = new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2486),
+                            Description = "Payment 5"
+                        });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.RefreshToken", b =>
@@ -160,7 +237,25 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_tags");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tags_name");
+
                     b.ToTable("tags", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb"),
+                            Color = "#ff0000",
+                            Name = "VIP"
+                        },
+                        new
+                        {
+                            Id = new Guid("b63ecaf9-da5a-43dd-990a-2da858e8704d"),
+                            Color = "#00ff00",
+                            Name = "Regular"
+                        });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.User", b =>
@@ -183,7 +278,19 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_users");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_email");
+
                     b.ToTable("users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("cf1f5dac-5edf-4fa0-bdc9-7e923e3c45c6"),
+                            Email = "admin@mirra.dev",
+                            PasswordHash = "$2a$11$.syTzSU2WWH46KGG.7.trOg631Vq.bAotNfuKfo8B/kgmyffOBfFi"
+                        });
                 });
 
             modelBuilder.Entity("ClientTag", b =>
@@ -203,6 +310,23 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                         .HasDatabaseName("ix_client_tag_tags_id");
 
                     b.ToTable("client_tag", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ClientsId = new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"),
+                            TagsId = new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb")
+                        },
+                        new
+                        {
+                            ClientsId = new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"),
+                            TagsId = new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb")
+                        },
+                        new
+                        {
+                            ClientsId = new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"),
+                            TagsId = new Guid("b63ecaf9-da5a-43dd-990a-2da858e8704d")
+                        });
                 });
 
             modelBuilder.Entity("AdminDashboard.Domain.Payment", b =>

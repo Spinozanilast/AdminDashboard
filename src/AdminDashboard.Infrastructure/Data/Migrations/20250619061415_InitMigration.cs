@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace AdminDashboard.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
@@ -131,10 +133,67 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "clients",
+                columns: new[] { "id", "balance_t", "email", "name" },
+                values: new object[,]
+                {
+                    { new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"), 100m, "john@example.com", "John Doe" },
+                    { new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"), 300m, "bob@example.com", "Bob Johnson" },
+                    { new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"), 200m, "jane@example.com", "Jane Smith" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "exchange_rates",
+                columns: new[] { "id", "last_updated", "rate" },
+                values: new object[] { new Guid("260b90ff-c556-426b-8567-9276bc3e339d"), new DateTime(2025, 6, 19, 6, 14, 14, 287, DateTimeKind.Utc).AddTicks(9403), 10.0m });
+
+            migrationBuilder.InsertData(
+                table: "tags",
+                columns: new[] { "id", "color", "name" },
+                values: new object[,]
+                {
+                    { new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb"), "#ff0000", "VIP" },
+                    { new Guid("b63ecaf9-da5a-43dd-990a-2da858e8704d"), "#00ff00", "Regular" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "id", "email", "password_hash" },
+                values: new object[] { new Guid("cf1f5dac-5edf-4fa0-bdc9-7e923e3c45c6"), "admin@mirra.dev", "$2a$11$.syTzSU2WWH46KGG.7.trOg631Vq.bAotNfuKfo8B/kgmyffOBfFi" });
+
+            migrationBuilder.InsertData(
+                table: "client_tag",
+                columns: new[] { "clients_id", "tags_id" },
+                values: new object[,]
+                {
+                    { new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"), new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb") },
+                    { new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"), new Guid("b63ecaf9-da5a-43dd-990a-2da858e8704d") },
+                    { new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"), new Guid("4df49d3e-e801-43d2-933a-f90d79ff51bb") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "payments",
+                columns: new[] { "id", "amount", "client_id", "date", "description" },
+                values: new object[,]
+                {
+                    { new Guid("88e94f46-3472-4965-90ee-d55d9a5c20f1"), 100m, new Guid("1b433c18-f11a-46fd-a731-52ed46a89916"), new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2476), "Payment 3" },
+                    { new Guid("c0df2376-f828-4cd4-af3d-1f0fb0dcadf1"), 75m, new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"), new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2471), "Payment 2" },
+                    { new Guid("d680ccfc-3135-44b7-ad50-4b438f5f4c41"), 150m, new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"), new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2486), "Payment 5" },
+                    { new Guid("e91bfe8e-7d77-4af9-8c14-7567e1bf08f6"), 50m, new Guid("03a68bb0-57f3-49c8-885e-aac2ddf74738"), new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2227), "Payment 1" },
+                    { new Guid("eb11a863-31a4-425d-8501-69c18c791e4c"), 25m, new Guid("11f651f4-fd29-4418-bb65-e18438b067c7"), new DateTime(2025, 6, 19, 6, 14, 14, 622, DateTimeKind.Utc).AddTicks(2481), "Payment 4" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_client_tag_tags_id",
                 table: "client_tag",
                 column: "tags_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_clients_email",
+                table: "clients",
+                column: "email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_client_id",
@@ -145,6 +204,18 @@ namespace AdminDashboard.Infrastructure.Data.Migrations
                 name: "ix_refresh_tokens_user_id",
                 table: "refresh_tokens",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_tags_name",
+                table: "tags",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_users_email",
+                table: "users",
+                column: "email",
+                unique: true);
         }
 
         /// <inheritdoc />

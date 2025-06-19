@@ -16,6 +16,7 @@ public class Client : Entity<Guid>
 
     public Client(string name, string email, decimal balanceT)
     {
+        Id = Guid.NewGuid();
         Name = name;
         Email = email;
         BalanceT = balanceT;
