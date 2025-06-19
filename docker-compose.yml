@@ -10,14 +10,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - smp_data:/var/lib/postgresql/data
+      - admin-dashboard-data:/var/lib/postgresql/data
   backend:
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       # Only for development purposes, use .env file instead
-      - ConnectionStrings__PostgresConnection=Server=smp-postgres:5432;User Id=postgres;Password=password;Database=admin-dashboard
+      - ConnectionStrings__PostgresConnection=Server=postgres-db:5432;User Id=postgres;Password=password;Database=admin-dashboard
     build:
       context: .
       dockerfile: ./src/AdminDashboard.Api/Dockerfile
@@ -29,4 +29,4 @@ services:
       - postgres-db
 
 volumes:
-  smp_data:
+  admin-dashboard-data:
